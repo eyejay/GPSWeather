@@ -588,14 +588,17 @@ class MainViewController: UIViewController, CLLocationManagerDelegate, UITextFie
     // Take screenshot and present activity view to save or share image on social media
     @IBAction func share(_ sender: Any) {
         
-        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0.0)
-        self.view.drawHierarchy(in: self.view.bounds, afterScreenUpdates: true)
-        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        // Show Activity View with sharing options
-        let activityViewController = UIActivityViewController(activityItems: [screenshot!], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        // Capture snapshot if view is not empty
+        if currentLocation != "" {
+            UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0.0)
+            self.view.drawHierarchy(in: self.view.bounds, afterScreenUpdates: true)
+            let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            // Show Activity View with sharing options
+            let activityViewController = UIActivityViewController(activityItems: [screenshot!], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Navigation
